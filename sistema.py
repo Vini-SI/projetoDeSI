@@ -3,7 +3,7 @@ from funçoes import *
 
 usuarios = []
 cont1 = 1
-# FUNÇÃO PARA CADASTRO
+# cadastro
 def cadastroUser(cont):
     while True:
         print("-" * 15, "Cadastro do Cliente", "-" * 15)
@@ -91,52 +91,86 @@ cont2 = 1
 def cadastroProduto(cont):
     print("-" * 15, "Cadastro de Produto", "-" * 15)
     produtoC = input("Digite aqui o nome do produto: ")
+    valor = float(input("Diigite o valor do produto: "))
 
 
-    produto = [produtoC]
+    produto = [produtoC, valor, cont]
     produtos.append(produto)
-    with open("Comidas.txt", "a", encoding="utf=8") as arquivo:
-            arquivo.write(f"{produtoC} / {cont}")
+    with open("Comidas.txt", "a", encoding="utf-8") as arquivo:
+            arquivo.write(f"{produtoC} / {valor} / {cont}\n")
 
-    cont += 1
     print("Produto Cadastrado com Sucesso!")
     print(f"O seu produto é: {produtoC} e id: {cont}")
+    cont += 1
     return cont
 
-def buscarProduto ():
+def buscarProduto():
     print("-" * 15, "Busca de Produto", "-" * 15)
 
     idBP = input("Digite o id do produto que você quer procurar: ")
 
     encontrar = False
 
-    with open("Comidas.txt", "a", encoding="utf-8") as arquivo:
+    with open("Comidas.txt", "r", encoding="utf-8") as arquivo:
         for p in arquivo:
-            alimento = p.strip().split()
+            alimento = p.strip().split("/")
 
-            idC = alimento[1]
-            comida = alimento[0]
+            idC = alimento[2].strip()
+            comida = alimento[0].strip()
+            valor = alimento[1].strip()
 
             if idBP == idC:
-                print(f"Produto de nome {comida} e id {idC} encontrado com sucesso!")
+                print(f"Produto de nome {comida}, id {idC} e preço {valor} . Encontrado com sucesso!")
                 encontrar = True
+                break
 
     if encontrar == False:
         print("ID de produto não encontrado")
+        sleep(1.5)
+
+def excluirProduto():
+    print("-" * 15, "Excluir Cadastros", "-" * 15)
+    idE = input("Digite o id que você quer excluir: ")
+    
+    encontrar = False
+
+    produtosR = []
+
+    with open("Comidas.txt", "r", encoding="utf-8") as arquivo:
+            for user in arquivo:
+                dados = user.strip().split("/")
+    
+                id = dados[2].strip()
+    
+                if idE != id:
+                    produtosR.append(dados)
+                else:
+                    encontrar = True
+                    print(f"Usuário com o id {id} excluido com sucesso!")
+                    sleep(2)
+                    
+    with open("Comidas.txt", "w", encoding="utf-8") as arquivo:
+        for usuario in produtosR:
+            dado = usuario
+            arquivo.write(f"{dado[0]}, {dado[1]}, {dado[2]}\n")
+    
+    
+    if encontrar == False:
+        print("Nenhum ID encontrado")
         sleep(1.5)
                 
                 
 
 
-# TITULO DO NEGOCIO
-painel("       SISTEMA DE GERENCIAMENTO           ")
+# titulo do ngc
+painel("LANCHONETE".center(40))
 
-# CODIGO QUE TA RODANDO
+# oque ta rodando
 while True:
-    digito = menu(["Gerenciar Clientes", "Gerenciar Produtos", "Gerenciar Vendas", "Sair"])
+    digito = menu(["Gerenciar Clientes", "Gerenciar Produtos", "Gerenciar Vendas", "Relátorios", "Sair"])
     if digito == "1":
         while True:
-            escolha = menu(["CADASTRAR", "BUSCAR", "Excluir", "SAIR"])
+            escolha = menu(["CADASTRAR", "BUSCAR", "Excluir", "Atualizar", "SAIR"])
             if escolha == "1":
                 cadastroUser(cont1)
                 cont1 += 1
@@ -144,21 +178,24 @@ while True:
                 buscar()
             elif escolha == "3":
                 excluirC()
-            elif escolha == "4":
+            elif escolha == "5":
                 print("Voltando...")
-                sleep(1.5)
+                sleep(1.3)
                 break
 
     elif digito == "2":
         while True:
-            opc = menu(["Cadastrar", "Buscar", "Excluir", "Sair"])
+            opc = menu(["Cadastrar", "Buscar", "Excluir", "Atualizar", "Sair"])
             if opc == "1":
                 cadastroProduto(cont2)
+                cont2 += 1
             elif opc == "2":
                 buscarProduto()
             elif opc == "3":
+                excluirProduto()
+            elif opc == "5":
                 print("Voltando...")
-                sleep(1.5)
+                sleep(1.3)
                 break
 
     elif digito == "3":
