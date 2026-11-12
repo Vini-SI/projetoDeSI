@@ -13,7 +13,7 @@ def cadastroUser(cont):
         if idade < 18:
             print("Você é de menor, infelizmente não poderá realizar o cadastro")
             sleep(1.5)
-            return cont
+            return 
         
         usuario = [nomeC, idade, cont]
 
@@ -26,7 +26,7 @@ def cadastroUser(cont):
         sleep(1)
         print(f"Cliente Cadastrado com Sucesso!")
         sleep(1.5)
-        return cont
+        return 
 
 def buscar():
     print("-" * 15, "Buscar cliente", "-" * 15)
@@ -92,15 +92,19 @@ def cadastroProduto(cont):
     print("-" * 15, "Cadastro de Produto", "-" * 15)
     produtoC = input("Digite aqui o nome do produto: ")
     valor = float(input("Diigite o valor do produto: "))
+    unidades = int(input("Digite a quantidade dos produtos: "))
+    if unidades < 20 or unidades < 0:
+        print("Não podem ser registrados produtos com quantidades menores que 20 ou menores que 0")
+        return
 
 
-    produto = [produtoC, valor, cont]
+    produto = [produtoC, valor, unidades, cont]
     produtos.append(produto)
     with open("Comidas.txt", "a", encoding="utf-8") as arquivo:
-            arquivo.write(f"{produtoC} / {valor} / {cont}\n")
+            arquivo.write(f"{produtoC} / {valor} / {unidades} / {cont}\n")
 
     print("Produto Cadastrado com Sucesso!")
-    print(f"O seu produto é: {produtoC} e id: {cont}")
+    print(f"O seu produto é: {produtoC}, id: {cont}, quantidade adicionada: {unidades} e valor: {valor}")
     cont += 1
     return cont
 
@@ -115,12 +119,13 @@ def buscarProduto():
         for p in arquivo:
             alimento = p.strip().split("/")
 
-            idC = alimento[2].strip()
+            idC = alimento[3].strip()
             comida = alimento[0].strip()
             valor = alimento[1].strip()
+            unidade = alimento[2].strip()
 
             if idBP == idC:
-                print(f"Produto de nome {comida}, id {idC} e preço {valor} . Encontrado com sucesso!")
+                print(f"Produto de nome {comida}, id {idC}, preço {valor} e qauntidade de {unidade} . Encontrado com sucesso!")
                 encontrar = True
                 break
 
@@ -140,7 +145,7 @@ def excluirProduto():
             for user in arquivo:
                 dados = user.strip().split("/")
     
-                id = dados[2].strip()
+                id = dados[3].strip()
     
                 if idE != id:
                     produtosR.append(dados)
@@ -159,7 +164,7 @@ def excluirProduto():
         print("Nenhum ID encontrado")
         sleep(1.5)
                 
-                
+
 
 
 # titulo do ngc
