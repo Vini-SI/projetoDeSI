@@ -98,7 +98,7 @@ def cadastroProduto(cont):
         return
 
 
-    produto = [produtoC, valor, unidades, cont]
+    produto = {"nome": produtoC, "valor": valor, "id": cont, "quantidade": unidades}
     produtos.append(produto)
     with open("Comidas.txt", "a", encoding="utf-8") as arquivo:
             arquivo.write(f"{produtoC} / {valor} / {unidades} / {cont}\n")
@@ -139,7 +139,7 @@ def excluirProduto():
     
     encontrar = False
 
-    produtosR = []
+    produtosSobrando = []
 
     with open("Comidas.txt", "r", encoding="utf-8") as arquivo:
             for user in arquivo:
@@ -148,14 +148,14 @@ def excluirProduto():
                 id = dados[3].strip()
     
                 if idE != id:
-                    produtosR.append(dados)
+                    produtosSobrando.append(dados)
                 else:
                     encontrar = True
                     print(f"Usuário com o id {id} excluido com sucesso!")
                     sleep(2)
                     
     with open("Comidas.txt", "w", encoding="utf-8") as arquivo:
-        for usuario in produtosR:
+        for usuario in produtosSobrando:
             dado = usuario
             arquivo.write(f"{dado[0]}, {dado[1]}, {dado[2]}\n")
     
@@ -164,6 +164,52 @@ def excluirProduto():
         print("Nenhum ID encontrado")
         sleep(1.5)
                 
+def vendaProduto():
+    print("-" * 15, "Cadastro de venda", "-" * 15)
+
+    produtosSobrando = []
+
+    compra = input("Digite o nome do produto que você deseja comprar: ")
+    quantosQ = int(input("Digite a quantidade que deseja comprar: "))
+
+    encontrar = False
+    vendaFeita = False
+
+    with open("Comidas.txt", "r", encoding="utf-8") as arquivo:
+        for produto in arquivo:
+            produtos = produto.strip().split("/")
+
+            nome = produtos[0].strip()
+            id = produtos[3].strip()
+            valor = float(produtos[1].strip())
+            qtd = int(produtos[2].strip())
+
+            if compra == nome:
+                encontrar = True
+                if quantosQ <= qtd:
+                    qtd = qtd - quantosQ
+                    total = quantosQ * valor
+                    vendaFeita = True
+                else:
+                    print("Não existe estoque suficiente")
+
+            produto = [nome, valor, qtd, id]
+            produtosSobrando.append(produto)
+
+
+    if encontrar == False:
+        print("Esse produto não existe")
+    elif vendaFeita == False:
+        print("A venda não foi feita")
+    else:
+        print(f"Voce comprou {quantosQ} e o valor total foi {total}\n")
+
+    if vendaFeita == True:
+        with open("Comidas.txt", "w", encoding="utf-8") as arquivo:
+            for comida in produtosSobrando:
+                sobras = comida
+                arquivo.write(f"{sobras[0]} / {sobras[1]} / {sobras[2]} / {sobras[3]}\n")
+
 
 
 
@@ -187,6 +233,9 @@ while True:
                 print("Voltando...")
                 sleep(1.3)
                 break
+            else:
+                print("Digite uma opção valida")
+                sleep(1.3)
 
     elif digito == "2":
         while True:
@@ -202,8 +251,22 @@ while True:
                 print("Voltando...")
                 sleep(1.3)
                 break
+            else:
+                print("Digite uma opção valida")
+                sleep(1.3)
 
     elif digito == "3":
+        while True:
+            opc = menu(["Cadastrar", "Sair"])
+            if opc == "1":
+                vendaProduto()
+            elif opc == "2":
+                print("Voltando...")
+                sleep(1.3)
+                break
+            
+
+    elif digito == "5":
         print("Programa Encerrado")
         break
 
