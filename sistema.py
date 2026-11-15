@@ -8,8 +8,7 @@ def cadastroUser(cont):
     while True:
         print("-" * 15, "Cadastro do Cliente", "-" * 15)
         nomeC = input("Digite o seu nome: ")
-        idade = input("Digite a sua idade: ")
-        idade = int(idade.strip())
+        idade = int(input("Digite a sua idade: "))
         if idade < 18:
             print("Você é de menor, infelizmente não poderá realizar o cadastro")
             sleep(1.5)
@@ -163,8 +162,9 @@ def excluirProduto():
     if encontrar == False:
         print("Nenhum ID encontrado")
         sleep(1.5)
-                
-def vendaProduto():
+
+cont3 = 1        
+def vendaProduto(cont):
     print("-" * 15, "Cadastro de venda", "-" * 15)
 
     produtosSobrando = []
@@ -193,7 +193,7 @@ def vendaProduto():
                 else:
                     print("Não existe estoque suficiente")
 
-            produto = [nome, valor, qtd, id]
+            produto = [nome, valor, qtd, id, cont]
             produtosSobrando.append(produto)
 
 
@@ -202,13 +202,18 @@ def vendaProduto():
     elif vendaFeita == False:
         print("A venda não foi feita")
     else:
+        cont += 1
         print(f"Voce comprou {quantosQ} e o valor total foi {total}\n")
+        print(f"A sua venda foi {nome}, e o ID da compra é {cont}")
 
     if vendaFeita == True:
         with open("Comidas.txt", "w", encoding="utf-8") as arquivo:
             for comida in produtosSobrando:
                 sobras = comida
                 arquivo.write(f"{sobras[0]} / {sobras[1]} / {sobras[2]} / {sobras[3]}\n")
+
+def buscarCompra():
+    
 
 
 
@@ -259,7 +264,8 @@ while True:
         while True:
             opc = menu(["Cadastrar", "Sair"])
             if opc == "1":
-                vendaProduto()
+                vendaProduto(cont3)
+                cont3 += 1
             elif opc == "2":
                 print("Voltando...")
                 sleep(1.3)
