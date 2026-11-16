@@ -10,7 +10,7 @@ def cadastroUser(cont):
         idade = int(input("Digite a sua idade: "))
         if idade < 18:
             print("Você é de menor, infelizmente não poderá realizar o cadastro")
-            sleep(1.5)
+            sleep(1)
             return 
 
         usuarios = []
@@ -25,7 +25,7 @@ def cadastroUser(cont):
         print(f"nome: {nomeC}, idade: {idade}, ID: {cont}")
         sleep(1)
         print(f"Cliente Cadastrado com Sucesso!")
-        sleep(1.5)
+        sleep(1)
         return cont
 
 def buscar():
@@ -44,13 +44,13 @@ def buscar():
 
                 if idB == id:
                     print(f"\nO usuario com nome {nome} com o id {id} e idade {idade} foi encontrado!\n")
-                    sleep(2)
+                    sleep(0.5)
                     encontrar = True
                     break
 
         if encontrar == False:
             print("Nenhum ID encontrado!")
-            sleep(1.5)
+            sleep(1)
 
 
 def excluirC():
@@ -72,7 +72,7 @@ def excluirC():
                 else:
                     encontrar = True
                     print(f"Usuário com o id {id} excluido com sucesso!")
-                    sleep(2)
+                    sleep(0.5)
                     
         with open("Cadastrados.txt", "w", encoding="utf-8") as arquivo:
             for usuario in clientesR:
@@ -82,7 +82,7 @@ def excluirC():
 
         if encontrar == False:
             print("Nenhum ID encontrado")
-            sleep(1.5)
+            sleep(1)
     
 
 cont2 = 1
@@ -151,7 +151,7 @@ def excluirProduto():
                     else:
                         encontrar = True
                         print(f"Usuário com o id {id} excluido com sucesso!")
-                        sleep(2)
+                        sleep(0.5)
                         
         with open("Comidas.txt", "w", encoding="utf-8") as arquivo:
             for usuario in produtosSobrando:
@@ -161,7 +161,7 @@ def excluirProduto():
         
         if encontrar == False:
             print("Nenhum ID encontrado")
-            sleep(1.5)
+            sleep(1)
 
 cont3 = 1      
 def vendaProduto(cont):
@@ -208,6 +208,7 @@ def vendaProduto(cont):
                 arquivo.write(f"{nome} / {quantosQ} / {total} / {id} / {cont}\n")
             cont += 1
 
+            
         if vendaFeita == True:
             with open("Comidas.txt", "w", encoding="utf-8") as arquivo:
                 for comida in produtosSobrando:
@@ -226,20 +227,50 @@ def buscarCompra():
             for comida in arquivo:
                 alimento = comida.strip().split("/")
 
-                id = alimento[4].strip()
+                id = alimento[3].strip()
                 nome = alimento[0].strip()
                 total = alimento[2].strip()
                 quantidade = alimento[1].strip()
-                idDaComida = alimento[3].strip()
+                idDaCompra = alimento[4].strip()
 
                 if idCompra == id:
-                    print(f"A compra de {nome}, com o id {idDaComida}, valor total de {total} e quantidade comprada foi de {quantidade} foi encontrada com sucesso")
+                    print(f"A compra de {nome}, com o id {id}, valor total de {total}, quantidade comprada foi de {quantidade} e com o id de venda {idDaCompra} foi encontrado com sucesso")
                     encontrar = True
 
 
         if encontrar == False:
             print("Não foi encontrado nenhum produto com esse id")
             sleep(1.5)
+
+def excluirCompra():
+        print("-" * 15, "Excluir compra", "-" * 15)
+        excluid = input("Digite o id da compra para exclui-la: ")
+
+        encontrar = False
+        comprasR = []
+
+        with open("Vendas.txt", "r", encoding="utf-8") as arquivo:
+          for compra in arquivo:
+               compras = compra.strip().split("/")
+
+               id = compras[4].strip()
+
+               if excluid != id:
+                comprasR.append(compras)
+               else:
+                    encontrar = True
+                    print(f"A venda com o ID: {id} foi exluida com sucesso")
+        
+
+        with open("Vendas.txt", "w", encoding="utf-8") as arquivo:
+             for buy in comprasR:
+                  comprar = buy
+                  arquivo.write(f"{comprar[0]}, {comprar[1]}, {comprar[2]}\n")
+
+        if encontrar == False:
+             print("ID de venda não encontrado")
+             sleep(1)
+                
 
 
 
@@ -287,14 +318,21 @@ while True:
 
     elif digito == "3":
         while True:
-            opc = menu(["Cadastrar", "Buscar", "Sair"])
+            opc = menu(["Cadastrar", "Buscar", "Excluir", "Sair"])
             if opc == "1":
                 vendaProduto(cont3)
                 cont3 += 1
             elif opc == "2":
                 buscarCompra()
             elif opc == "3":
-                break
+                excluirCompra()
+            elif opc == "4":
+                 print("Voltando...")
+                 sleep(1.3)
+                 break
+            else:
+                print("Digite uma opção valida")
+                sleep(1.3)
             
 
     elif digito == "5":
