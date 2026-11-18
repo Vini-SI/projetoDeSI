@@ -169,6 +169,23 @@ def vendaProduto(cont):
 
     produtosSobrando = []
 
+    encontraPessoa = False
+
+    idDaPessoa = input("Digite o seu ID para compra: ")
+    with open("Cadastrados.txt", "r", encoding="utf-8") as arquivo:
+        for pessoa in arquivo:
+            people = pessoa.strip().split("/")
+
+            idP = people[2].strip()
+
+            if idDaPessoa == idP:
+                encontraPessoa = True
+                nomeDaPessoa = people[0].strip()
+
+    if encontraPessoa == False:
+        print("Esse ID não existe")
+        return cont
+                
     compra = input("Digite o nome do produto que você deseja comprar: ")
     quantosQ = int(input("Digite a quantidade que deseja comprar: "))
 
@@ -186,6 +203,9 @@ def vendaProduto(cont):
 
             if compra == nome:
                 encontrar = True
+                nomeCompra = nome
+                idCompra = id
+                valorCompra = valor
                 if quantosQ <= qtd:
                         qtd = qtd - quantosQ
                         total = quantosQ * valor
@@ -203,9 +223,9 @@ def vendaProduto(cont):
             print("A venda não foi feita")
         else:
             print(f"\nVoce comprou {quantosQ} e o valor total foi {total}\n")
-            print(f"A sua venda foi {nome}, e o ID da compra é {cont}")
+            print(f"A sua venda foi {nomeCompra}, e o ID da compra é {cont}")
             with open("Vendas.txt", "a", encoding="utf-8") as arquivo:
-                arquivo.write(f"{nome} / {quantosQ} / {total} / {id} / {cont}\n")
+                arquivo.write(f"{nomeDaPessoa} / {nomeCompra} / {quantosQ} / {valorCompra} / {total} / {idCompra} / {cont} / {idDaPessoa}\n")
             cont += 1
 
             
@@ -270,7 +290,12 @@ def excluirCompra():
         if encontrar == False:
              print("ID de venda não encontrado")
              sleep(1)
-                
+
+
+def relatorioDeVendas():
+     print("-" * 15, "Relatorio de vendas", "-" * 15)
+
+
 
 
 
