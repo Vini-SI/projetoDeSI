@@ -38,6 +38,9 @@ def buscar():
             for user in arquivo:
                 dados = user.strip().split("/")
 
+                if len(dados) < 3:
+                    continue
+
                 id = dados[2].strip()
                 nome = dados[0].strip()
                 idade = dados[1].strip()
@@ -65,6 +68,9 @@ def excluirC():
             for user in arquivo:
                 dados = user.strip().split("/")
 
+                if len(dados) < 3:
+                    continue
+
                 id = dados[2].strip()
 
                 if idE != id:
@@ -83,7 +89,40 @@ def excluirC():
         if encontrar == False:
             print("Nenhum ID encontrado")
             sleep(1)
-    
+
+def atualizar():
+    idDaPessoa = input("Digite o ID do usuario para atualizar a idade: ")
+
+    cadastrosAtualizados = []
+    encontrar = False
+
+    with open("Cadastrados.txt", "r", encoding="utf-8") as arquivo:
+        for user in arquivo:
+            dados = user.strip().split("/")
+
+            if len(dados) < 3:
+                continue
+
+            idP = dados[2].strip()
+
+            if idDaPessoa == idP:
+                atualizar = int(input("Digite a idade atualizada: "))
+                if atualizar < 18:
+                    print("Idades menores de 18 não são permitidas")
+                    return
+                dados[1] = atualizar
+                encontrar = True
+            cadastrosAtualizados.append(dados)
+
+        with open("Cadastrados.txt", "w", encoding="utf-8") as arquivo:
+            for usuario in cadastrosAtualizados:
+                arquivo.write(f"{usuario[0]} / {usuario[1]} / {usuario[2]}\n")
+
+        if encontrar == True:
+            print("Idade atualizada com sucesso")
+        else:
+            print("ID não encontrado")
+
 
 cont2 = 1
 def cadastroProduto(cont):
@@ -118,6 +157,9 @@ def buscarProduto():
             for p in arquivo:
                 alimento = p.strip().split("/")
 
+                if len(alimento) < 4:
+                    continue
+
                 idC = alimento[3].strip()
                 comida = alimento[0].strip()
                 valor = alimento[1].strip()
@@ -143,6 +185,9 @@ def excluirProduto():
         with open("Comidas.txt", "r", encoding="utf-8") as arquivo:
                 for user in arquivo:
                     dados = user.strip().split("/")
+
+                    if len(dados) < 4:
+                        continue
         
                     id = dados[3].strip()
         
@@ -163,78 +208,123 @@ def excluirProduto():
             print("Nenhum ID encontrado")
             sleep(1)
 
+def atualizarProduto():
+    idDoProduto = input("Digite o ID do produto para atualizar a quantidade: ")
+    
+    produtosAtualizados = []
+    encontrar = False
+    
+    with open("Comidas.txt", "r", encoding="utf-8") as arquivo:
+        for user in arquivo:
+            dados = user.strip().split("/")
+    
+            if len(dados) < 4:
+                continue
+    
+            idP = dados[3].strip()
+    
+            if idDoProduto == idP:
+                atualizar = int(input("Digite a quantidade atualizada: "))
+                if atualizar < 20:
+                    print("Não podem ser registrado uma quantia menor doque 20 unidades")
+                    return
+                dados[2] = atualizar
+                encontrar = True
+            produtosAtualizados.append(dados)
+    
+    with open("Comidas.txt", "w", encoding="utf-8") as arquivo:
+        for produto in produtosAtualizados:
+            arquivo.write(f"{produto[0]} / {produto[1]} / {produto[2]} / {produto[3]}\n")
+    
+    if encontrar == True:
+        print("Produto atualizada com sucesso")
+    else:
+        print("ID não encontrado")
+
 cont3 = 1
 def vendaProduto(cont):
-    print("-" * 15, "Cadastro de venda", "-" * 15)
+    while True:
+        print("-" * 15, "Cadastro de venda", "-" * 15)
 
-    produtosSobrando = []
+        encontraPessoa = False
 
-    encontraPessoa = False
+        idDaPessoa = input("Digite o seu ID para compra: ")
+        with open("Cadastrados.txt", "r", encoding="utf-8") as arquivo:
+            for pessoa in arquivo:
+                people = pessoa.strip().split("/")
 
-    idDaPessoa = input("Digite o seu ID para compra: ")
-    with open("Cadastrados.txt", "r", encoding="utf-8") as arquivo:
-        for pessoa in arquivo:
-            people = pessoa.strip().split("/")
+                if len(people) < 3:
+                    continue
 
-            idP = people[2].strip()
+                idP = people[2].strip()
 
-            if idDaPessoa == idP:
-                encontraPessoa = True
-                nomeDaPessoa = people[0].strip()
+                if idDaPessoa == idP:
+                    encontraPessoa = True
+                    nomeDaPessoa = people[0].strip()
 
-    if encontraPessoa == False:
-        print("Esse ID não existe")
-        return cont
-                
-    compra = input("Digite o nome do produto que você deseja comprar: ")
-    quantosQ = int(input("Digite a quantidade que deseja comprar: "))
+        if encontraPessoa == False:
+            print("Esse ID não existe")
+            return cont
+  
+        while True:
+            produtosSobrando = []
+            encontraNome = False
+            vendaFeita = False          
+            compra = input("Digite o nome do produto que você deseja comprar: ")
+            with open("Comidas.txt", "r", encoding="utf-8") as arquivo:
+                    for nomes in arquivo:
+                        nome1 = nomes.strip().split("/")
 
-    encontrar = False
-    vendaFeita = False
+                        if len(nome1) < 4:
+                             continue
 
-    with open("Comidas.txt", "r", encoding="utf-8") as arquivo:
-        for produto in arquivo:
-            produtos = produto.strip().split("/")
+                        nomeP = nome1[0].strip()
+                        id = nome1[3].strip()
+                        valor = float(nome1[1].strip())
+                        qtd = int(nome1[2].strip())
 
-            nome = produtos[0].strip()
-            id = produtos[3].strip()
-            valor = float(produtos[1].strip())
-            qtd = int(produtos[2].strip())
+                        if compra == nomeP:
+                            encontraNome = True
+                            quantosQuer = int(input("Digite a quantidade que deseja comprar: "))
+                            nomeCompra = nomeP
+                            idCompra = id
+                            valorCompra = valor
+                            if quantosQuer <= qtd:
+                                quantidade = qtd - quantosQuer
+                                total = quantosQuer * valor
+                                vendaFeita = True
+                            else:
+                                print("Não existe estoque suficiente")
+                                quantidade = qtd
 
-            if compra == nome:
-                encontrar = True
-                nomeCompra = nome
-                idCompra = id
-                valorCompra = valor
-                if quantosQ <= qtd:
-                        qtd = qtd - quantosQ
-                        total = quantosQ * valor
-                        vendaFeita = True
-                else:
-                    print("Não existe estoque suficiente")
-
-            produto = [nome, valor, qtd, id]
-            produtosSobrando.append(produto)
-
-
-        if encontrar == False:
-            print("Esse produto não existe")
-        elif vendaFeita == False:
-            print("A venda não foi feita")
-        else:
-            print(f"\nVoce comprou {quantosQ} e o valor total foi {total}\n")
-            print(f"A sua venda foi {nomeCompra}, e o ID da compra é {cont}")
-            with open("Vendas.txt", "a", encoding="utf-8") as arquivo:
-                arquivo.write(f"{nomeDaPessoa} / {nomeCompra} / {quantosQ} / {valorCompra} / {total} / {idCompra} / {cont} / {idDaPessoa}\n")
-            cont += 1
-
-            
-        if vendaFeita == True:
-            with open("Comidas.txt", "w", encoding="utf-8") as arquivo:
-                for comida in produtosSobrando:
-                    sobras = comida
-                    arquivo.write(f"{sobras[0]} / {sobras[1]} / {sobras[2]} / {sobras[3]}\n")
-    return cont
+                        else:
+                            quantidade = qtd
+                            
+                        produto = [nomeP, valor, quantidade, id]
+                        produtosSobrando.append(produto)
+                            
+                            
+                    if encontraNome == False:
+                            print("Esse produto não existe")
+                            continue
+                    elif vendaFeita == False:
+                            print("A venda não foi feita")
+                            continue
+                    else:
+                        print(f"\nVoce comprou {quantosQuer} e o valor total foi {total}\n")
+                        print(f"A sua venda foi {nomeCompra}, e o ID da compra é {cont}")
+                        with open("Vendas.txt", "a", encoding="utf-8") as arquivo:
+                            arquivo.write(f"{nomeDaPessoa} / {nomeCompra} / {quantosQuer} / {valorCompra} / {total} / {idCompra} / {cont} / {idDaPessoa}\n")
+                            
+                                            
+                    if vendaFeita == True:
+                        with open("Comidas.txt", "w", encoding="utf-8") as arquivo:
+                            for comida in produtosSobrando:
+                                sobras = comida
+                                arquivo.write(f"{sobras[0]} / {sobras[1]} / {sobras[2]} / {sobras[3]}\n")
+                        break
+            return cont
+        break
 
 def buscarCompra():
         print("-" * 15, "Procurar compra", "-" * 15)
@@ -246,6 +336,9 @@ def buscarCompra():
         with open("Vendas.txt", "r", encoding="utf-8") as arquivo:
             for comida in arquivo:
                 alimento = comida.strip().split("/")
+
+                if len(alimento) < 8:
+                    continue
 
                 id = alimento[7].strip()
                 nome = alimento[0].strip()
@@ -273,6 +366,9 @@ def excluirCompra():
         with open("Vendas.txt", "r", encoding="utf-8") as arquivo:
           for compra in arquivo:
                compras = compra.strip().split("/")
+
+               if len(compras) < 8:
+                   continue
 
                id = compras[6].strip()
 
@@ -336,7 +432,7 @@ def relatorioDeProdutos():
 
 
 # titulo do ngc
-painel("LANCHONETE".center(40))
+painel("LANXONETE".center(40))
 
 # oque ta rodando
 while True:
@@ -351,6 +447,8 @@ while True:
                 buscar()
             elif escolha == "3":
                 excluirC()
+            elif escolha == "4":
+                atualizar()
             elif escolha == "5":
                 print("Voltando...")
                 sleep(1)
@@ -369,6 +467,8 @@ while True:
                 buscarProduto()
             elif opc == "3":
                 excluirProduto()
+            elif opc == "4":
+                atualizarProduto()
             elif opc == "5":
                 print("Voltando...")
                 sleep(1.3)
