@@ -1,7 +1,6 @@
 from time import sleep
 from funçoes import *
 
-
 cont1 = 1
 # cadastro
 def cadastroUser(cont):
@@ -13,12 +12,6 @@ def cadastroUser(cont):
             sleep(1)
             return 
 
-        usuarios = []
-        
-        usuario = [nomeC, idade, cont]
-
-        usuarios.append(usuario)
-
         with open("Cadastrados.txt", "a", encoding="utf-8") as arquivo:
             arquivo.write(f"{nomeC.strip()} / {idade} / {cont}\n")
 
@@ -26,6 +19,7 @@ def cadastroUser(cont):
         sleep(1)
         print(f"Cliente Cadastrado com Sucesso!")
         sleep(1)
+        cont += 1
         return cont
 
 def buscar():
@@ -125,6 +119,7 @@ def atualizar():
 
 
 cont2 = 1
+produtos = []
 def cadastroProduto(cont):
         print("-" * 15, "Cadastro de Produto", "-" * 15)
         produtoC = input("Digite aqui o nome do produto: ")
@@ -132,14 +127,13 @@ def cadastroProduto(cont):
         unidades = int(input("Digite a quantidade dos produtos: "))
         if unidades < 20 or unidades < 0:
             print("Não podem ser registrados produtos com quantidades menores que 20 ou menores que 0")
-            return
+            return cont
 
-        produtos = []
 
         produto = {"nome": produtoC, "valor": valor, "id": cont, "quantidade": unidades}
         produtos.append(produto)
         with open("Comidas.txt", "a", encoding="utf-8") as arquivo:
-                arquivo.write(f"{produtoC} / {valor} / {unidades} / {cont}\n")
+                arquivo.write(f"{produto['nome']} / {produto['valor']} / {produto['quantidade']} / {produto['id']}\n")
 
         print("Produto Cadastrado com Sucesso!")
         print(f"O seu produto é: {produtoC}, id: {cont}, quantidade adicionada: {unidades} e valor: {valor}")
