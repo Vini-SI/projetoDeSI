@@ -1,8 +1,12 @@
 from time import sleep
 
+
+
 # LINHA
 def linha():
     print("-" * 40)
+
+
 
 
 # aparece linha e texto
@@ -128,10 +132,12 @@ def atualizar():
             idP = dados[2].strip()
 
             if idDaPessoa == idP:
+                atualizar1 = input("Digite o nome atualizado: ")
                 atualizar = int(input("Digite a idade atualizada: "))
                 if atualizar < 18:
                     print("Idades menores de 18 não são permitidas")
                     return
+                dados[0] = atualizar1
                 dados[1] = atualizar
                 encontrar = True
             cadastrosAtualizados.append(dados)
@@ -141,7 +147,7 @@ def atualizar():
                 arquivo.write(f"{usuario[0]} / {usuario[1]} / {usuario[2]}\n")
 
         if encontrar == True:
-            print("Idade atualizada com sucesso")
+            print("Idade e nome atualizados com sucesso")
         else:
             print("ID não encontrado")
 
@@ -534,7 +540,6 @@ while True:
             else:
                 print("Digite uma opção valida")
                 sleep(1)
-            
 
     elif digito == "5":
         print("Programa Encerrado")
