@@ -42,7 +42,7 @@ def cadastroUser(cont):
         if idade < 18:
             print("Você é de menor, infelizmente não poderá realizar o cadastro")
             sleep(1)
-            return 
+            return cont
 
         with open("Cadastrados.txt", "a", encoding="utf-8") as arquivo:
             arquivo.write(f"{nomeC.strip()} / {idade} / {cont}\n")
@@ -472,8 +472,7 @@ while True:
         while True:
             escolha = menu(["CADASTRAR", "BUSCAR", "Excluir", "Atualizar", "SAIR"])
             if escolha == "1":
-                cadastroUser(cont1)
-                cont1 += 1
+                cont1 = cadastroUser(cont1)
             elif escolha == "2":
                 buscar()
             elif escolha == "3":
@@ -492,8 +491,7 @@ while True:
         while True:
             opc = menu(["Cadastrar", "Buscar", "Excluir", "Atualizar", "Sair"])
             if opc == "1":
-                cadastroProduto(cont2)
-                cont2 += 1
+                cont2 = cadastroProduto(cont2)
             elif opc == "2":
                 buscarProduto()
             elif opc == "3":
@@ -512,8 +510,7 @@ while True:
         while True:
             opc = menu(["Cadastrar", "Buscar", "Excluir", "Atualizar", "Sair"])
             if opc == "1":
-                vendaProduto(cont3)
-                cont3 += 1
+                cont3 = vendaProduto(cont3)
             elif opc == "2":
                 buscarCompra()
             elif opc == "3":
