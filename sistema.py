@@ -1,5 +1,33 @@
 from time import sleep
-from funçoes import *
+
+# LINHA
+def linha():
+    print("-" * 40)
+
+
+# aparece linha e texto
+def painel(txt):
+    linha()
+    print(txt)
+    linha()
+
+
+# a pessoa escolhe o que ela vai fazer
+def menu(lista):
+    painel("ESCOLHA SUA OPÇÃO")
+    cont = 1
+    for item in lista:
+        print(f"{cont} - {item}")
+        cont += 1
+    linha()
+    opcao = input("Digite sua opção: ")
+    return opcao
+
+
+def lerArquivo(nome):
+    with open(nome, "r", encoding="utf-8") as arquivo:
+        print(arquivo.read())
+
 
 cont1 = 1
 # cadastro
@@ -386,21 +414,27 @@ def excluirCompra():
 def relatorioDeVendas():
     print("-" * 15, "Relatorio de vendas", "-" * 15)
 
+    totalDoEstoque = 0
+
     with open("Vendas.txt", "r", encoding="utf-8") as arquivo:
         for venda in arquivo:
             vendas = venda.strip().split("/")
             id = vendas[7].strip()
             nome = vendas[0].strip()
-            total = vendas[4].strip()
+            total = float(vendas[4].strip())
             quantidade = vendas[2].strip()
             idDaCompra = vendas[6].strip()
             nomeDoProduto = vendas[1].strip()
+
+            totalDoEstoque += total
 
             print(f"""
             Usuario: {nome} 
             ID: {id}
             Comprou: {nomeDoProduto} e {quantidade} unidades e o ID da compra foi {idDaCompra}
             e o valor total foi: {total}""")
+
+    print(f"     O total arrecadado foi {totalDoEstoque:.2f}")
 
 def relatorioDeProdutos():
 
@@ -419,9 +453,6 @@ def relatorioDeProdutos():
             quantidade: {qtd}
             ID: {id}""")
             
-
-
-
 
 
 
@@ -491,11 +522,18 @@ while True:
 
     elif digito == "4":
         while True:
-            opc = menu(["Relatorios de vendas", "Relatorios de produtos"])
+            opc = menu(["Relatorios de vendas", "Relatorios de produtos", "Sair"])
             if opc == "1":
                 relatorioDeVendas()
             elif opc == "2":
                 relatorioDeProdutos()
+            elif opc == "3":
+                print("Voltando...")
+                sleep(1)
+                break
+            else:
+                print("Digite uma opção valida")
+                sleep(1)
             
 
     elif digito == "5":
