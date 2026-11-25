@@ -117,7 +117,7 @@ def excluirC():
             sleep(1)
 
 def atualizar():
-    idDaPessoa = input("Digite o ID do usuario para atualizar a idade: ")
+    idDaPessoa = input("Digite o ID do usuario para atualizar o nome/idade: ")
 
     cadastrosAtualizados = []
     encontrar = False
@@ -508,17 +508,17 @@ while True:
 
     elif digito == "3":
         while True:
-            opc = menu(["Cadastrar", "Buscar", "Excluir", "Atualizar", "Sair"])
+            opc = menu(["Cadastrar", "Buscar", "Excluir", "Sair"])
             if opc == "1":
                 cont3 = vendaProduto(cont3)
             elif opc == "2":
                 buscarCompra()
             elif opc == "3":
                 excluirCompra()
-            elif opc == "5":
-                 print("Voltando...")
-                 sleep(1)
-                 break
+            elif opc == "4":
+                print("Voltando...")
+                sleep(1)
+                break
             else:
                 print("Digite uma opção valida")
                 sleep(1)
