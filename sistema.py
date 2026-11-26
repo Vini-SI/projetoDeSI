@@ -295,7 +295,8 @@ def vendaProduto(cont):
         while True:
             produtosSobrando = []
             encontraNome = False
-            vendaFeita = False          
+            vendaFeita = False      
+            estoqueZero = False    
             compra = input("Digite o nome do produto que você deseja comprar: ")
             with open("Comidas.txt", "r", encoding="utf-8") as arquivo:
                     for nomes in arquivo:
@@ -311,6 +312,10 @@ def vendaProduto(cont):
 
                         if compra == nomeP:
                             encontraNome = True
+                            if qtd == 0:
+                                print("Acabou Tudo")
+                                estoqueZero = True
+                                break
                             quantosQuer = int(input("Digite a quantidade que deseja comprar: "))
                             nomeCompra = nomeP
                             idCompra = id
@@ -328,11 +333,13 @@ def vendaProduto(cont):
                             
                         produto = [nomeP, valor, quantidade, id]
                         produtosSobrando.append(produto)
-                            
-                            
+
+                    if estoqueZero == True:
+                        break        
+                         
                     if encontraNome == False:
                             print("Esse produto não existe")
-                            continue
+                            break
                     elif vendaFeita == False:
                             print("A venda não foi feita")
                             continue
@@ -348,9 +355,11 @@ def vendaProduto(cont):
                             for comida in produtosSobrando:
                                 sobras = comida
                                 arquivo.write(f"{sobras[0]} / {sobras[1]} / {sobras[2]} / {sobras[3]}\n")
+                        cont += 1        
                         break
-            return cont
-        break
+            break
+        return cont
+
 
 def buscarCompra():
         print("-" * 15, "Procurar compra", "-" * 15)
@@ -472,8 +481,6 @@ def relatorioDeProdutos():
         print("Não tem nada aqui bobão")
 
     
-            
-
 
 
 # titulo do ngc
@@ -484,9 +491,9 @@ while True:
     digito = menu(["Gerenciar Clientes", "Gerenciar Produtos", "Gerenciar Vendas", "Relátorios", "Sair"])
     if digito == "1":
         while True:
-            escolha = menu(["CADASTRAR", "BUSCAR", "Excluir", "Atualizar", "SAIR"])
+            escolha = menu(["CADASTRAR", "BUSCAR", "Excluir", "Atualizar", "Voltar"])
             if escolha == "1":
-                cont1 = cadastroUser(cont1)
+               cont1 = cadastroUser(cont1)
             elif escolha == "2":
                 buscar()
             elif escolha == "3":
@@ -503,7 +510,7 @@ while True:
 
     elif digito == "2":
         while True:
-            opc = menu(["Cadastrar", "Buscar", "Excluir", "Atualizar", "Sair"])
+            opc = menu(["Cadastrar", "Buscar", "Excluir", "Atualizar", "Voltar"])
             if opc == "1":
                 cont2 = cadastroProduto(cont2)
             elif opc == "2":
@@ -522,9 +529,9 @@ while True:
 
     elif digito == "3":
         while True:
-            opc = menu(["Cadastrar", "Buscar", "Excluir", "Sair"])
+            opc = menu(["Cadastrar", "Buscar", "Excluir", "Voltar"])
             if opc == "1":
-                cont3 = vendaProduto(cont3)
+               cont3 = vendaProduto(cont3)
             elif opc == "2":
                 buscarCompra()
             elif opc == "3":
@@ -539,7 +546,7 @@ while True:
 
     elif digito == "4":
         while True:
-            opc = menu(["Relatorios de vendas", "Relatorios de produtos", "Sair"])
+            opc = menu(["Relatorios de vendas", "Relatorios de produtos", "Voltar"])
             if opc == "1":
                 relatorioDeVendas()
             elif opc == "2":
