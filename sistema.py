@@ -480,7 +480,44 @@ def relatorioDeProdutos():
     if encontrar == False:
         print("Não tem nada aqui bobão")
 
-    
+
+with open("Cadastrados.txt", "r", encoding="utf-8") as arquivo:
+    for cliente in arquivo:
+        dados = cliente.strip().split("/")
+
+        if len(dados) < 3:
+            continue
+
+        idCliente = int(dados[2].strip())
+
+        if idCliente >= cont1:
+            cont1 = idCliente + 1        
+
+
+with open("Comidas.txt", "r", encoding="utf-8") as arquivo:
+    for produto in arquivo:
+        dados = produto.strip().split("/")
+
+        if len(dados) < 4:
+            continue
+
+        idProduto = int(dados[3].strip())
+
+        if idProduto >= cont2:
+            cont2 = idProduto + 1
+
+
+with open("Vendas.txt", "r", encoding="utf-8") as arquivo:
+    for venda in arquivo:
+        dados = venda.strip().split("/")
+
+        if len(dados) < 8:
+            continue
+
+        idVenda = int(dados[6].strip())
+
+        if idVenda >= cont3:
+            cont3 = idVenda + 1
 
 
 # titulo do ngc
