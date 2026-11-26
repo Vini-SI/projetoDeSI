@@ -7,8 +7,6 @@ def linha():
     print("-" * 40)
 
 
-
-
 # aparece linha e texto
 def painel(txt):
     linha()
