@@ -444,12 +444,15 @@ def relatorioDeVendas():
             Comprou: {nomeDoProduto} e {quantidade} unidades e o ID da compra foi {idDaCompra}
             e o valor total foi: {total}""")
 
+
     print(f"     O total arrecadado foi {totalDoEstoque:.2f}")
 
 def relatorioDeProdutos():
 
-     with open("Comidas.txt", "r", encoding="utf-8") as arquivo:
-          for comida in arquivo:
+    encontrar = False
+
+    with open("Comidas.txt", "r", encoding="utf-8") as arquivo:
+        for comida in arquivo:
             comidas = comida.strip().split("/")
 
             if len(comidas) < 4:
@@ -465,6 +468,12 @@ def relatorioDeProdutos():
             Valor: {preco}
             quantidade: {qtd}
             ID: {id}""")
+            encontrar = True
+
+    if encontrar == False:
+        print("Não tem nada aqui bobão")
+
+    
             
 
 
