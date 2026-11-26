@@ -425,6 +425,10 @@ def relatorioDeVendas():
     with open("Vendas.txt", "r", encoding="utf-8") as arquivo:
         for venda in arquivo:
             vendas = venda.strip().split("/")
+
+            if len(vendas) < 8:
+                continue
+
             id = vendas[7].strip()
             nome = vendas[0].strip()
             total = float(vendas[4].strip())
@@ -447,6 +451,9 @@ def relatorioDeProdutos():
      with open("Comidas.txt", "r", encoding="utf-8") as arquivo:
           for comida in arquivo:
             comidas = comida.strip().split("/")
+
+            if len(comidas) < 4:
+                continue
 
             nomeDoProduto = comidas[0].strip()
             preco = comidas[1].strip()
